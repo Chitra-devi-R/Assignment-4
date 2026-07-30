@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopEase | Drag &amp; Drop and Web Storage</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- =========================================================
+     REQUIREMENT 2: HEADER — application title + logo
+     REQUIREMENT 13: Semantic element <header>
+     ========================================================= -->
+<header class="main-header">
+  <div class="logo-section">
+    <span class="logo-badge" aria-hidden="true">🛍️</span>
+    <div>
+      <h1>ShopEase</h1>
+      <p class="tagline">Drag, Drop &amp; Store — HTML5 in Action</p>
+    </div>
+  </div>
+  <div class="student-info">
+    <p><strong>Student:</strong> Chitra Devi R</p>
+    <p><strong>Register No:</strong> 71762307201</p>
+  </div>
+  <!-- THEME SWITCHER — Light / Dark mode toggle -->
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
+    🌙 Dark Mode
+  </button>
+</header>
+
+<!-- =========================================================
+     REQUIREMENT 3: NAVIGATION MENU
+     REQUIREMENT 13: Semantic element <nav>
+     ========================================================= -->
+<nav class="navbar">
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#storage">Storage</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#help">Help</a></li>
+  </ul>
+</nav>
+
+<!-- =========================================================
+     REQUIREMENT 13: Semantic element <main> wraps all page content
+     ========================================================= -->
+<main>
+
+  <!-- =========================================================
+       REQUIREMENT 4: INTRODUCTION — <section> containing <article>
+       ========================================================= -->
+  <section id="home" class="intro-section">
+    <article>
+      <h2>Welcome to ShopEase</h2>
+      <p>
+        ShopEase is a demo storefront built to showcase two core HTML5 capabilities:
+        native <strong>drag-and-drop</strong> interaction and the two flavours of
+        <strong>Web Storage</strong> — <code>localStorage</code> and <code>sessionStorage</code>.
+        Drag a product into the cart below, then save your details so ShopEase remembers you
+        on your next visit.
+      </p>
+    </article>
+  </section>
+
+  <!-- =========================================================
+       ABOUT SECTION (supports navigation link + semantic <section>/<article>)
+       ========================================================= -->
+  <section id="about" class="about-section">
+    <article>
+      <h2>About This Page</h2>
+      <p>
+        This page was built as an academic assignment demonstrating HTML5 Drag and Drop
+        APIs and Web Storage (Local &amp; Session Storage), using only semantic HTML5,
+        CSS3 and vanilla JavaScript — no frameworks or libraries.
+      </p>
+    </article>
+    <aside class="about-aside">
+      <!-- REQUIREMENT 13: Semantic element <aside> -->
+      <h3>Quick Facts</h3>
+      <ul>
+        <li>Pure HTML5 / CSS3 / JS</li>
+        <li>No external libraries</li>
+        <li>Works fully offline</li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- =========================================================
+       REQUIREMENT 5, 6, 7: DRAG SOURCE, DROP TARGET, DRAG EVENTS
+       ========================================================= -->
+  <section id="features" class="dnd-section">
+    <h2>Drag a Product Into Your Cart</h2>
+    <p class="section-hint">Drag any box below and drop it into the cart area.</p>
+
+    <div class="dnd-wrapper">
+      <!-- REQUIREMENT 5: Drag Source (draggable colored boxes) -->
+      <div class="product-tray">
+        <div class="product-box" draggable="true" id="product1">👟 Shoes</div>
+        <div class="product-box" draggable="true" id="product2">🎧 Headphones</div>
+        <div class="product-box" draggable="true" id="product3">⌚ Watch</div>
+      </div>
+
+      <!-- REQUIREMENT 6: Drop Target -->
+      <div class="cart-drop-area" id="cartDropArea">
+        <p id="cartPlaceholder">🛒 Drop items here</p>
+      </div>
+    </div>
+
+    <div class="cart-summary">
+      <h4>Items in Cart: <span id="cartCount">0</span></h4>
+      <button id="clearCartBtn" class="btn btn-ghost">Clear Cart</button>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       REQUIREMENT 8, 9, 10, 11: LOCAL STORAGE, SESSION STORAGE,
+       RETRIEVE DATA, CLEAR DATA
+       ========================================================= -->
+  <section id="storage" class="storage-section">
+    <h2>Web Storage Demo</h2>
+
+    <div class="storage-grid">
+
+      <!-- ---- LOCAL STORAGE CARD ---- -->
+      <article class="storage-card">
+        <h3>🗄️ Local Storage <small>(permanent)</small></h3>
+        <p>Saved here stays on this browser even after you close the tab.</p>
+        <label for="localName">Your Name</label>
+        <input type="text" id="localName" placeholder="Enter your name">
+
+        <div class="storage-actions">
+          <button id="saveLocalBtn" class="btn btn-primary">Save</button>
+          <button id="loadLocalBtn" class="btn btn-ghost">Retrieve</button>
+          <button id="clearLocalBtn" class="btn btn-danger">Clear</button>
+        </div>
+        <p class="storage-output" id="localOutput"></p>
+      </article>
+
+      <!-- ---- SESSION STORAGE CARD ---- -->
+      <article class="storage-card">
+        <h3>⏳ Session Storage <small>(temporary)</small></h3>
+        <p>Saved here lasts only until this browser tab is closed.</p>
+        <label for="sessionNote">Session Note</label>
+        <input type="text" id="sessionNote" placeholder="e.g. Currently browsing: Shoes">
+
+        <div class="storage-actions">
+          <button id="saveSessionBtn" class="btn btn-primary">Save</button>
+          <button id="loadSessionBtn" class="btn btn-ghost">Retrieve</button>
+          <button id="clearSessionBtn" class="btn btn-danger">Clear</button>
+        </div>
+        <p class="storage-output" id="sessionOutput"></p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       HELP SECTION (supports navigation link)
+       ========================================================= -->
+  <section id="help" class="help-section">
+    <h2>Help</h2>
+    <article>
+      <p>
+        <strong>Drag &amp; Drop:</strong> Click and hold a product box, drag it over the
+        cart area, then release. <strong>Local Storage:</strong> type your name and click
+        Save — it will still be there if you reload the page. <strong>Session Storage:</strong>
+        type a note and click Save — it disappears once you close this tab.
+      </p>
+    </article>
+  </section>
+
+  <!-- =========================================================
+       CONTACT SECTION (supports navigation link)
+       ========================================================= -->
+  <section id="contact" class="contact-section">
+    <h2>Contact</h2>
+    <p><strong>Email:</strong> support@shopease.com</p>
+    <p><strong>Phone:</strong> +91 98765 43210</p>
+  </section>
+
+</main>
+
+<!-- =========================================================
+     REQUIREMENT 12: FOOTER — copyright, student, institution, contact
+     REQUIREMENT 13: Semantic element <footer>
+     ========================================================= -->
+<footer class="main-footer">
+  <p>&copy; 2026 ShopEase. All Rights Reserved.</p>
+  <p>Chitra Devi R &middot; Reg. No. 71762307201</p>
+  <p>Department of Computer Science &middot; KKC Institute of Technology</p>
+  <p>Contact: support@shopease.com &middot; +91 96982 25151</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
