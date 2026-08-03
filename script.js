@@ -1,6 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   /* =========================================================
+     LIVE DATE & TIME DISPLAY
+     ========================================================= */
+  function updateDateTime() {
+    const now = new Date();
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateStr = now.toLocaleDateString('en-US', dateOptions);
+    const timeStr = now.toLocaleTimeString('en-US');
+    document.getElementById('dateTimeDisplay').textContent = dateStr + '  |  ' + timeStr;
+  }
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+
+  /* =========================================================
      THEME SWITCHER — Light / Dark mode toggle
      Uses localStorage so the chosen theme is remembered
      the next time this page is opened.
@@ -34,9 +47,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const productBoxes = document.querySelectorAll('.product-box');
   const cartDropArea = document.getElementById('cartDropArea');
-  const cartPlaceholder = document.getElementById('cartPlaceholder');
   const cartCount = document.getElementById('cartCount');
-  let itemsInCart = 0;
+  const cartMenuList = document.getElementById('cartMenuList');
+
+  // Tracks how many of each product have been dropped, e.g. { "Shoes": 2 }
+  const cartItems = {};
+
+  function totalItemCount() {
+    return Object.values(cartItems).reduce((sum, qty) => sum + qty, 0);
+  }
+
+  // Re-renders both the drop area badges and the Cart Menu list from cartItems
+  function renderCart() {
+    const total = totalItemCount();
+    cartCount.textContent = total;
+
+    // ---- Drop area badges ----
+    cartDropArea.innerHTML = '';
+    if (total === 0) {
+      cartDropArea.innerHTML = '<p id="cartPlaceholder">🛒 Drop items here</p>';
+    } else {
+      Object.keys(cartItems).forEach(name => {
+        const badge = document.createElement('div');
+        badge.className = 'dropped-item';
+        badge.textContent = cartItems[name] > 1 ? `${name} x${cartItems[name]}` : name;
+        cartDropArea.appendChild(badge);
+      });
+    }
+
+    // ---- Cart Menu list ----
+    cartMenuList.innerHTML = '';
+    if (total === 0) {
+      cartMenuList.innerHTML = '<li id="cartMenuEmpty" class="cart-menu-empty">No items yet</li>';
+      return;
+    }
+    Object.keys(cartItems).forEach(name => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span>${name}</span><span class="cart-menu-qty">x${cartItems[name]}</span>`;
+      cartMenuList.appendChild(li);
+    });
+  }
 
   // dragstart — fired on the DRAG SOURCE when the user starts dragging it
   productBoxes.forEach(box => {
@@ -72,22 +122,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const draggedBox = document.getElementById(draggedId);
     if (!draggedBox) return;
 
-    if (cartPlaceholder) cartPlaceholder.remove();
+    const itemName = draggedBox.textContent.trim();
+    cartItems[itemName] = (cartItems[itemName] || 0) + 1;
 
-    const droppedItem = document.createElement('div');
-    droppedItem.className = 'dropped-item';
-    droppedItem.textContent = draggedBox.textContent;
-    cartDropArea.appendChild(droppedItem);
-
-    itemsInCart++;
-    cartCount.textContent = itemsInCart;
+    renderCart();
   });
 
+  // Clear Cart — empties both the drop area and the Cart Menu list
   document.getElementById('clearCartBtn').addEventListener('click', () => {
-    cartDropArea.innerHTML = '<p id="cartPlaceholder">🛒 Drop items here</p>';
-    itemsInCart = 0;
-    cartCount.textContent = itemsInCart;
+    Object.keys(cartItems).forEach(key => delete cartItems[key]);
+    renderCart();
   });
+
+  // Render once on load so the empty state shows correctly
+  renderCart();
 
   /* =========================================================
      REQUIREMENT 8 & 10: LOCAL STORAGE — save + retrieve (permanent)
