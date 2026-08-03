@@ -31,6 +31,13 @@
 </header>
 
 <!-- =========================================================
+     LIVE DATE & TIME DISPLAY
+     ========================================================= -->
+<div class="datetime-bar">
+  <p id="dateTimeDisplay">Loading date &amp; time...</p>
+</div>
+
+<!-- =========================================================
      REQUIREMENT 3: NAVIGATION MENU
      REQUIREMENT 13: Semantic element <nav>
      ========================================================= -->
@@ -108,6 +115,14 @@
       <div class="cart-drop-area" id="cartDropArea">
         <p id="cartPlaceholder">🛒 Drop items here</p>
       </div>
+
+      <!-- CART MENU — itemized list of everything dropped so far -->
+      <aside class="cart-menu">
+        <h3>🛒 Your Cart</h3>
+        <ul id="cartMenuList" class="cart-menu-list">
+          <li id="cartMenuEmpty" class="cart-menu-empty">No items yet</li>
+        </ul>
+      </aside>
     </div>
 
     <div class="cart-summary">
@@ -191,8 +206,8 @@
 <footer class="main-footer">
   <p>&copy; 2026 ShopEase. All Rights Reserved.</p>
   <p>Chitra Devi R &middot; Reg. No. 71762307201</p>
-  <p>Department of Computer Science &middot; KKC Institute of Technology</p>
-  <p>Contact: support@shopease.com &middot; +91 96982 25151</p>
+  <p>Department of Computer Science &middot; XYZ Institute of Technology</p>
+  <p>Contact: support@shopease.com &middot; +91 98765 43210</p>
 </footer>
 
 <script src="script.js"></script>
